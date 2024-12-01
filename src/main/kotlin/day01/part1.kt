@@ -1,7 +1,7 @@
 package day01
 
 fun main() {
-    val res = generateSequence(::readLine)
+    generateSequence(::readLine)
         .joinToString("\n")
         .trim()
         .replace("\r", "")
@@ -13,6 +13,5 @@ fun main() {
         .map { it.sorted() }
         .let { it[0].zip(it[1]) }
         .sumOf { (a, b) -> kotlin.math.abs(a - b) }
-    println(res)
+        .let { println(it) }
 }
-

@@ -9,6 +9,5 @@ fun main() {
         .map { it[0] to it[1] }
         .unzip()
     val m = data.second.groupingBy { it }.eachCount()
-    val res = data.first.sumOf { it * m.getOrDefault(it, 0) }
-    println(res)
+    data.first.sumOf { it * m.getOrDefault(it, 0) }.let { println(it) }
 }
