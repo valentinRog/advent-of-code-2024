@@ -1,0 +1,14 @@
+package day01
+
+fun main() {
+    val data = generateSequence(::readLine).joinToString("\n")
+        .trim()
+        .replace("\r", "")
+        .split("\n")
+        .map { s -> s.split(' ').filter { it.isNotEmpty() }.map { it.toInt() } }
+        .map { it[0] to it[1] }
+        .unzip()
+    val m = data.second.groupingBy { it }.eachCount()
+    val res = data.first.sumOf { it * m.getOrDefault(it, 0) }
+    println(res)
+}
