@@ -13,5 +13,5 @@ fun main() {
         .map { it.sorted() }
         .let { it[0].zip(it[1]) }
         .sumOf { (a, b) -> kotlin.math.abs(a - b) }
-        .let { println(it) }
+        .let(::println)
 }
