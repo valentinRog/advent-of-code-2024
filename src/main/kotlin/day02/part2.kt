@@ -3,7 +3,7 @@ package day02
 import kotlin.math.abs
 
 fun valid(l: List<Int>) =
-    (l.sorted() in arrayOf(l, l.reversed())) && l.zipWithNext().all { (a, b) -> abs(a - b) in (1..3) }
+    (l.sorted() in arrayOf(l, l.reversed())) && l.zipWithNext().all { (a, b) -> abs(a - b) in 1..3 }
 
 fun main() {
     generateSequence(::readLine)
