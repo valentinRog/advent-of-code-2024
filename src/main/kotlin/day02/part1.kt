@@ -3,7 +3,8 @@ package day02
 import kotlin.math.abs
 
 fun main() {
-    generateSequence(::readLine).joinToString("\n")
+    generateSequence(::readLine)
+        .joinToString("\n")
         .trim()
         .replace("\r", "")
         .split("\n")

@@ -6,7 +6,8 @@ fun valid(l: List<Int>) =
     (l.sorted() in arrayOf(l, l.reversed())) && l.zipWithNext().all { (a, b) -> abs(a - b) in (1..3) }
 
 fun main() {
-    generateSequence(::readLine).joinToString("\n")
+    generateSequence(::readLine)
+        .joinToString("\n")
         .trim()
         .replace("\r", "")
         .split("\n")
