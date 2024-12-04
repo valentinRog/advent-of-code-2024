@@ -1,4 +1,4 @@
-package day01
+package day01.part1
 
 fun main() {
     generateSequence(::readLine)

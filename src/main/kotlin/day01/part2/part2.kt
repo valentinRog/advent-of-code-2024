@@ -1,4 +1,4 @@
-package day01
+package day01.part2
 
 fun main() {
     val data = generateSequence(::readLine).joinToString("\n")
