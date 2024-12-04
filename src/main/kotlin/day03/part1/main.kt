@@ -1,7 +1,7 @@
 package day03.part1
 
 enum class TokenName {
-    MUl,
+    MUL,
     INT,
     OPEN_PARENTHESIS,
     CLOSE_PARENTHESIS,
@@ -15,7 +15,7 @@ class Lexer(private val s: String) {
     private var i = 0
 
     private val m = mapOf(
-        "mul" to Token(TokenName.MUl, null),
+        "mul" to Token(TokenName.MUL, null),
         "(" to Token(TokenName.OPEN_PARENTHESIS, null),
         ")" to Token(TokenName.CLOSE_PARENTHESIS, null),
         "," to Token(TokenName.COMMA, null),
@@ -52,7 +52,7 @@ fun compute(l: List<Token>): Int {
     tailrec fun compute(i: Int) {
         if (i + 5 >= l.size) return
         if (l.slice(i..i + 5).map { it.tokenName } == listOf(
-                TokenName.MUl,
+                TokenName.MUL,
                 TokenName.OPEN_PARENTHESIS,
                 TokenName.INT,
                 TokenName.COMMA,
