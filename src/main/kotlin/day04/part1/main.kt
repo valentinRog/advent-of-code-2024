@@ -9,20 +9,13 @@ fun Map<Point, Char>.compute() =
         .filterValues { it == 'X' }
         .asIterable()
         .sumOf { (k, v) ->
-            listOf(
-                Point(0, -1),
-                Point(1, -1),
-                Point(1, 0),
-                Point(1, 1),
-                Point(0, 1),
-                Point(-1, 1),
-                Point(-1, 0),
-                Point(-1, -1),
-            ).count {
-                (0..3).fold(k to "") { acc, _ ->
-                    (acc.first + it) to (acc.second + this.getOrDefault(acc.first, '.'))
-                }.second == "XMAS"
-            }
+            (-1..1).flatMap { (-1..1).map { i -> Point(it, i) } }
+                .filter { it != Point(0, 0) }
+                .count {
+                    (0..3).fold(k to "") { acc, _ ->
+                        (acc.first + it) to (acc.second + this.getOrDefault(acc.first, '.'))
+                    }.second == "XMAS"
+                }
         }
 
 fun main() {
