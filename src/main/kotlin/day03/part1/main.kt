@@ -71,5 +71,7 @@ fun compute(l: List<Token>): Int {
 fun main() {
     generateSequence(::readLine)
         .joinToString("\n")
+        .trim()
+        .replace("\r", "")
         .let { println(compute(lex(it))) }
 }
