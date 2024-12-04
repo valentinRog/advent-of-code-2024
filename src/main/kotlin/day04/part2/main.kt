@@ -10,24 +10,16 @@ fun String.parse() =
         .flatMapIndexed { y, line -> line.mapIndexed { x, c -> Point(x, y) to c } }
         .toMap()
 
-fun Map<Point, Char>.offset(p: Point) = this.asIterable().associate { (k, v) -> k + p to v }
-
-fun Map<Point, Char>.compute(): Int {
-    val xMax = this.keys.maxBy { it.x }.x
-    val yMax = this.keys.maxBy { it.y }.y
-    return listOf(
-        "M.S\n.A.\nM.S",
-        "S.S\n.A.\nM.M",
-        "M.M\n.A.\nS.S",
-        "S.M\n.A.\nS.M",
-    )
-        .map { it.parse() }
-        .sumOf {
-            (0..xMax)
-                .flatMap { x -> (0..yMax).map { y -> it.offset(Point(x, y)) } }
-                .count { it.asIterable().all { (k, v) -> this[k] == v || v == '.' } }
+fun Map<Point, Char>.compute() =
+    this
+        .asIterable()
+        .filter { (_, v) -> v == 'A' }
+        .count { (k, _) ->
+            listOf(Point(1, -1), Point(1, 1), Point(-1, 1), Point(-1, -1))
+                .map { this.getOrDefault(k + it, '.') }
+                .joinToString("")
+                .let { listOf("SSMM", "SMMS", "MMSS", "MSSM").contains(it) }
         }
-}
 
 fun main() {
     generateSequence(::readLine)
