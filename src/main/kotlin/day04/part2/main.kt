@@ -4,12 +4,6 @@ data class Point(val x: Int, val y: Int) {
     operator fun plus(other: Point) = Point(x + other.x, y + other.y)
 }
 
-fun String.parse() =
-    this
-        .split("\n")
-        .flatMapIndexed { y, line -> line.mapIndexed { x, c -> Point(x, y) to c } }
-        .toMap()
-
 fun Map<Point, Char>.compute() =
     this
         .asIterable()
@@ -26,5 +20,7 @@ fun main() =
         .joinToString("\n")
         .trim()
         .replace("\r", "")
-        .parse()
+        .split("\n")
+        .flatMapIndexed { y, line -> line.mapIndexed { x, c -> Point(x, y) to c } }
+        .toMap()
         .let { println(it.compute()) }
