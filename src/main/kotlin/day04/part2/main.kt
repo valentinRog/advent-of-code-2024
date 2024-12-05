@@ -21,11 +21,10 @@ fun Map<Point, Char>.compute() =
                 .let { listOf("SSMM", "SMMS", "MMSS", "MSSM").contains(it) }
         }
 
-fun main() {
+fun main() =
     generateSequence(::readLine)
         .joinToString("\n")
         .trim()
         .replace("\r", "")
         .parse()
         .let { println(it.compute()) }
-}

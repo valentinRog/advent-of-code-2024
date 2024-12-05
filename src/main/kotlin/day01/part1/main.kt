@@ -1,6 +1,6 @@
 package day01.part1
 
-fun main() {
+fun main() =
     generateSequence(::readLine)
         .joinToString("\n")
         .trim()
@@ -14,4 +14,4 @@ fun main() {
         .let { it[0].zip(it[1]) }
         .sumOf { (a, b) -> kotlin.math.abs(a - b) }
         .let(::println)
-}
+

@@ -18,7 +18,7 @@ fun Map<Point, Char>.compute() =
                 }
         }
 
-fun main() {
+fun main() =
     generateSequence(::readLine)
         .joinToString("\n")
         .trim()
@@ -27,4 +27,4 @@ fun main() {
         .flatMapIndexed { y, line -> line.mapIndexed { x, c -> Point(x, y) to c } }
         .toMap()
         .let { println(it.compute()) }
-}
+
