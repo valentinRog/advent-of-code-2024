@@ -1,4 +1,4 @@
-package day06.part1
+package day06.part2
 
 data class Complex(var x: Int, var y: Int) {
     operator fun plus(other: Complex) = Complex(x + other.x, y + other.y)
@@ -8,7 +8,12 @@ data class Complex(var x: Int, var y: Int) {
     )
 }
 
-fun Map<Complex, Char>.compute(): Int {
+sealed class TraverseResult {
+    class Out(val path: Set<Complex>) : TraverseResult()
+    data object Loop : TraverseResult()
+}
+
+fun Map<Complex, Char>.traverse(wall: Complex?): TraverseResult {
     val starts = mapOf(
         '^' to Complex(0, -1),
         '>' to Complex(1, 0),
@@ -16,18 +21,25 @@ fun Map<Complex, Char>.compute(): Int {
         '<' to Complex(-1, 0),
     )
     var (z, c) = this.entries.find { starts.containsKey(it.value) }!!
-    val seen = mutableSetOf<Complex>()
+    val seen = mutableSetOf<Pair<Complex, Complex>>()
     var d = starts.getValue(c)
-    while (this.containsKey(z)) {
-        if (this[z + d] == '#') {
+    while (true) {
+        if (!this.containsKey(z)) return TraverseResult.Out(seen.map { it.first }.toSet())
+        if (this[z + d] == '#' || z + d == wall) {
             d *= Complex(0, 1)
             continue
         }
-        seen.add(z)
+        if (seen.contains(z to d)) return TraverseResult.Loop
+        seen.add(z to d)
         z += d
     }
-    return seen.size
 }
+
+fun Map<Complex, Char>.compute() =
+    this
+        .traverse(null)
+        .let { it as TraverseResult.Out }.path
+        .count { this.traverse(it) is TraverseResult.Loop }
 
 fun main() =
     generateSequence(::readLine)
