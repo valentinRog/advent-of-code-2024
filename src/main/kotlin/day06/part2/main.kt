@@ -14,15 +14,9 @@ sealed class TraverseResult {
 }
 
 fun Map<Complex, Char>.traverse(wall: Complex?): TraverseResult {
-    val starts = mapOf(
-        '^' to Complex(0, -1),
-        '>' to Complex(1, 0),
-        'v' to Complex(0, 1),
-        '<' to Complex(-1, 0),
-    )
-    var (z, c) = this.entries.find { starts.containsKey(it.value) }!!
+    var (z, c) = this.entries.find { it.value == '^' }!!
     val seen = mutableSetOf<Pair<Complex, Complex>>()
-    var d = starts.getValue(c)
+    var d = Complex(0, -1)
     while (true) {
         if (!this.containsKey(z)) return TraverseResult.Out(seen.map { it.first }.toSet())
         if (this[z + d] == '#' || z + d == wall) {

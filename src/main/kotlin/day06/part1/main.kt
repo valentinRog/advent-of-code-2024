@@ -9,15 +9,9 @@ data class Complex(var x: Int, var y: Int) {
 }
 
 fun Map<Complex, Char>.compute(): Int {
-    val starts = mapOf(
-        '^' to Complex(0, -1),
-        '>' to Complex(1, 0),
-        'v' to Complex(0, 1),
-        '<' to Complex(-1, 0),
-    )
-    var (z, c) = this.entries.find { starts.containsKey(it.value) }!!
+    var (z, c) = this.entries.find { it.value == '^' }!!
     val seen = mutableSetOf<Complex>()
-    var d = starts.getValue(c)
+    var d = Complex(0, -1)
     while (this.containsKey(z)) {
         if (this[z + d] == '#') {
             d *= Complex(0, 1)
