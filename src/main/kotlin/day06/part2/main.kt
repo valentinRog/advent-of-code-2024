@@ -35,7 +35,7 @@ fun Map<Complex, Char>.compute(): Int {
     return this
         .traverse(null)
         .let { it as TraverseResult.Out }.path
-        .count { (it != z0) && this.traverse(it) is TraverseResult.Loop }
+        .count { it != z0 && this.traverse(it) is TraverseResult.Loop }
 }
 
 fun main() =
