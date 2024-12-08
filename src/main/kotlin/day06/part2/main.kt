@@ -14,7 +14,8 @@ sealed class TraverseResult {
 }
 
 fun Map<Complex, Char>.traverse(wall: Complex?): TraverseResult {
-    var (z, c) = this.entries.find { it.value == '^' }!!
+    var z = this.entries.find { it.value == '^' }!!.key
+    val z0 = z
     val seen = mutableSetOf<Pair<Complex, Complex>>()
     var d = Complex(0, -1)
     while (true) {
@@ -24,16 +25,18 @@ fun Map<Complex, Char>.traverse(wall: Complex?): TraverseResult {
             continue
         }
         if (seen.contains(z to d)) return TraverseResult.Loop
-        seen.add(z to d)
+        if (z != z0) seen.add(z to d)
         z += d
     }
 }
 
-fun Map<Complex, Char>.compute() =
-    this
+fun Map<Complex, Char>.compute(): Int {
+    val z0 = this.entries.find { it.value == '^' }!!.key
+    return this
         .traverse(null)
         .let { it as TraverseResult.Out }.path
-        .count { this.traverse(it) is TraverseResult.Loop }
+        .count { (it != z0) && this.traverse(it) is TraverseResult.Loop }
+}
 
 fun main() =
     generateSequence(::readLine)
