@@ -25,7 +25,7 @@ fun main() =
             acc + generateSequence { if (i % 2 == 0) i / 2 else -1 }.take(c.toString().toInt()).toList()
         }
         .compute()
-        .filter { it != -1 }
         .withIndex()
+        .filter { it.value != -1 }
         .sumOf { it.value.toBigInteger() * it.index.toBigInteger() }
         .let(::println)
