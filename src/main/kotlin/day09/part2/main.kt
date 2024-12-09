@@ -10,9 +10,7 @@ fun List<Int>.compute(): List<Int> {
         if (l[i] != -1) return insertBlock(i + 1, block)
         val space = generateSequence(i) { it + 1 }.takeWhile { l[it] == l[i] }.let { i..it.last() }
         if (space.count() < block.count()) return insertBlock(i + 1, block)
-        for ((ii, jj) in space.zip(block)) {
-            l[ii] = l[jj].also { l[jj] = l[ii] }
-        }
+        for ((ii, jj) in space.zip(block)) l[ii] = l[jj].also { l[jj] = l[ii] }
     }
 
     tailrec fun compute(j: Int) {
