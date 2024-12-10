@@ -26,9 +26,7 @@ fun main() {
         .trim()
         .replace("\r", "")
         .split("\n")
-        .flatMapIndexed { y, line ->
-            line.mapIndexed { x, c -> Complex(x, y) to c.toString().toInt() }
-        }
+        .flatMapIndexed { y, line -> line.mapIndexed { x, c -> Complex(x, y) to c.toString().toInt() } }
         .toMap()
         .compute()
         .let(::println)
