@@ -1,13 +1,13 @@
-package day10.part1
+package day10.part2
 
 data class Complex(var x: Int, var y: Int) {
     operator fun plus(other: Complex) = Complex(x + other.x, y + other.y)
 }
 
 fun Map<Complex, Int>.compute(): Int {
-    fun compute(z: Complex): Set<Complex> =
+    fun compute(z: Complex): Int =
         when (this[z]) {
-            9 -> setOf(z)
+            9 -> 1
             else -> listOf(
                 Complex(0, -1),
                 Complex(1, 0),
@@ -15,9 +15,9 @@ fun Map<Complex, Int>.compute(): Int {
                 Complex(-1, 0),
             )
                 .filter { this[z + it] == this.getValue(z) + 1 }
-                .fold(emptySet<Complex>()) { acc, d -> acc + compute(z + d) }
+                .sumOf { compute(z + it) }
         }
-    return this.filter { it.value == 0 }.keys.sumOf { compute(it).size }
+    return this.filter { it.value == 0 }.keys.sumOf { compute(it) }
 }
 
 fun main() =
