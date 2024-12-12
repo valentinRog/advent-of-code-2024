@@ -1,0 +1,68 @@
+package day12.part2
+
+data class Complex(var x: Int, var y: Int) {
+    operator fun plus(other: Complex) = Complex(x + other.x, y + other.y)
+
+    companion object {
+        val DIRS = listOf(
+            Complex(0, -1),
+            Complex(1, 0),
+            Complex(0, 1),
+            Complex(-1, 0),
+        )
+    }
+}
+
+fun Map<Complex, Char>.makeRegions(): List<Set<Complex>> {
+    val hs = this.keys.toMutableSet()
+    fun extract(z: Complex): Set<Complex> {
+        hs.remove(z)
+        return Complex.DIRS
+            .filter { hs.contains(z + it) && this[z + it] == this[z] }
+            .fold(setOf(z)) { acc, d -> acc + extract(z + d) }
+    }
+
+    val l = mutableListOf<Set<Complex>>()
+    while (hs.isNotEmpty()) l.add(extract(hs.first()))
+    return l
+}
+
+fun Set<Complex>.rotate(): Set<Complex> {
+    val x1 = this.maxOf { it.x }
+    return this.map { z -> Complex(z.y, x1 - z.x) }.toSet()
+}
+
+fun Set<Complex>.countFaces(): Int {
+
+    fun scanFromLeft(hs: Set<Complex>): Int {
+        val x0 = hs.minOf { it.x } - 1
+        val x1 = hs.maxOf { it.x }
+        val y0 = hs.minOf { it.y }
+        val y1 = hs.maxOf { it.y }
+        var n = 0
+        for (x in x0..x1) {
+            var yPrev = y0 - 2
+            for (y in y0..y1) {
+                if (!hs.contains(Complex(x, y)) && hs.contains(Complex(x + 1, y))) {
+                    if (y - yPrev > 1) n++
+                    yPrev = y
+                }
+            }
+        }
+        return n
+    }
+
+    return generateSequence(this) { it.rotate() }.take(4).sumOf { scanFromLeft(it) }
+}
+
+fun main() =
+    generateSequence(::readLine)
+        .joinToString("\n")
+        .trim()
+        .replace("\r", "")
+        .split("\n")
+        .flatMapIndexed { y, line -> line.mapIndexed { x, c -> Complex(x, y) to c } }
+        .toMap()
+        .makeRegions()
+        .sumOf { it.size * it.countFaces() }
+        .let(::println)
