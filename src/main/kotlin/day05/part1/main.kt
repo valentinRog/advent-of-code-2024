@@ -4,7 +4,7 @@ fun Map<Int, Set<Int>>.valid(l: List<Int>) =
     l
         .withIndex()
         .flatMap { e -> l.withIndex().filter { e.index < it.index }.map { e.value to it.value } }
-        .all { (a, b) -> this.getValue(a).contains(b) }
+        .all { (a, b) -> b in this.getValue(a) }
 
 fun main() {
     val raw = generateSequence(::readLine).joinToString("\n").trim().replace("\r", "")

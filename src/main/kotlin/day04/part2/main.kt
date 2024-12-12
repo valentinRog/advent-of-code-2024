@@ -12,7 +12,7 @@ fun Map<Point, Char>.compute() =
             listOf(Point(1, -1), Point(1, 1), Point(-1, 1), Point(-1, -1))
                 .map { this.getOrDefault(k + it, '.') }
                 .joinToString("")
-                .let { listOf("SSMM", "SMMS", "MMSS", "MSSM").contains(it) }
+                .let { it in listOf("SSMM", "SMMS", "MMSS", "MSSM") }
         }
 
 fun main() =

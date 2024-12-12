@@ -12,7 +12,7 @@ fun Map<Complex, Char>.compute(): Int {
     var (z, c) = this.entries.find { it.value == '^' }!!
     val seen = mutableSetOf<Complex>()
     var d = Complex(0, -1)
-    while (this.containsKey(z)) {
+    while (z in this) {
         if (this[z + d] == '#') {
             d *= Complex(0, 1)
             continue

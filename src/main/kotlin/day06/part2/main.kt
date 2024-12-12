@@ -19,12 +19,12 @@ fun Map<Complex, Char>.traverse(wall: Complex?): TraverseResult {
     val seen = mutableSetOf<Pair<Complex, Complex>>()
     var d = Complex(0, -1)
     while (true) {
-        if (!this.containsKey(z)) return TraverseResult.Out(seen.map { it.first }.toSet())
+        if (z !in this) return TraverseResult.Out(seen.map { it.first }.toSet())
         if (this[z + d] == '#' || z + d == wall) {
             d *= Complex(0, 1)
             continue
         }
-        if (seen.contains(z to d)) return TraverseResult.Loop
+        if (z to d in seen) return TraverseResult.Loop
         if (z != z0) seen.add(z to d)
         z += d
     }

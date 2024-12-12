@@ -14,7 +14,7 @@ fun Map<Complex, Char>.compute() =
         .map { it[0].key to it[1].key }
         .flatMap { (z1, z2) ->
             listOf(z1 to z1 - z2, z2 to z2 - z1)
-                .flatMap { (z, d) -> generateSequence(z) { it + d }.takeWhile { this.containsKey(it) } }
+                .flatMap { (z, d) -> generateSequence(z) { it + d }.takeWhile { it in this } }
         }
         .toSet().size
 

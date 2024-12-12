@@ -6,7 +6,7 @@ class Solver {
     private val cache = mutableMapOf<Pair<BigInteger, Int>, BigInteger>()
 
     fun compute(n: BigInteger, depth: Int): BigInteger {
-        if (cache.containsKey(n to depth)) return cache.getValue(n to depth)
+        if (n to depth in cache) return cache.getValue(n to depth)
         if (depth == 0) return 1.toBigInteger()
         if (n == 0.toBigInteger()) return cache.getOrPut(n to depth) { compute(1.toBigInteger(), depth - 1) }
         if (n.toString().length % 2 == 0) {

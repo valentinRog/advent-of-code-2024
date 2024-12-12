@@ -13,7 +13,7 @@ fun Map<Complex, Char>.compute() =
         .filter { it[0].value == it[1].value && it[0].key != it[1].key }
         .map { it[0].key to it[1].key }
         .flatMap { (z1, z2) -> listOf(z1 + (z1 - z2), z2 + (z2 - z1)) }
-        .filter { this.containsKey(it) }
+        .filter { it in this }
         .toSet().size
 
 fun main() =
