@@ -39,17 +39,14 @@ fun Set<Complex>.countFaces(): Int {
         val x1 = hs.maxOf { it.x }
         val y0 = hs.minOf { it.y }
         val y1 = hs.maxOf { it.y }
-        var n = 0
-        for (x in x0..x1) {
-            var yPrev = y0 - 2
-            for (y in y0..y1) {
-                if (!hs.contains(Complex(x, y)) && hs.contains(Complex(x + 1, y))) {
-                    if (y - yPrev > 1) n++
-                    yPrev = y
-                }
-            }
+
+        data class Acc(var n: Int, var yPrev: Int)
+        return (x0..x1).sumOf { x ->
+            (y0..y1).filter { y -> !hs.contains(Complex(x, y)) && hs.contains(Complex(x + 1, y)) }
+                .fold(Acc(0, y0 - 2)) { (n, yPrev), y ->
+                    if (y - yPrev > 1) Acc(n + 1, y) else Acc(n, y)
+                }.n
         }
-        return n
     }
 
     return generateSequence(this) { it.rotate() }.take(4).sumOf { scanFromLeft(it) }
