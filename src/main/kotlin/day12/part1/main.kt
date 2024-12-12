@@ -18,7 +18,7 @@ fun Map<Complex, Char>.makeRegions(): List<Set<Complex>> {
     fun extract(z: Complex): Set<Complex> {
         hs.remove(z)
         return Complex.DIRS
-            .filter { hs.contains(z + it) && this[z + it] == this[z] }
+            .filter { z + it in hs && this[z + it] == this[z] }
             .fold(setOf(z)) { acc, d -> acc + extract(z + d) }
     }
 
@@ -27,7 +27,7 @@ fun Map<Complex, Char>.makeRegions(): List<Set<Complex>> {
     return l
 }
 
-fun Set<Complex>.compute() = this.size * this.sumOf { z -> Complex.DIRS.count { !this.contains(z + it) } }
+fun Set<Complex>.compute() = this.size * this.sumOf { z -> Complex.DIRS.count { (z + it) !in this } }
 
 fun main() {
     generateSequence(::readLine)

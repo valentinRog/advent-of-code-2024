@@ -18,7 +18,7 @@ fun Map<Complex, Char>.makeRegions(): List<Set<Complex>> {
     fun extract(z: Complex): Set<Complex> {
         hs.remove(z)
         return Complex.DIRS
-            .filter { hs.contains(z + it) && this[z + it] == this[z] }
+            .filter { z + it in hs && this[z + it] == this[z] }
             .fold(setOf(z)) { acc, d -> acc + extract(z + d) }
     }
 
@@ -33,7 +33,6 @@ fun Set<Complex>.rotate(): Set<Complex> {
 }
 
 fun Set<Complex>.countFaces(): Int {
-
     fun scanFromLeft(hs: Set<Complex>): Int {
         val x0 = hs.minOf { it.x } - 1
         val x1 = hs.maxOf { it.x }
@@ -42,7 +41,7 @@ fun Set<Complex>.countFaces(): Int {
 
         data class Acc(var n: Int, var yPrev: Int)
         return (x0..x1).sumOf { x ->
-            (y0..y1).filter { y -> !hs.contains(Complex(x, y)) && hs.contains(Complex(x + 1, y)) }
+            (y0..y1).filter { y -> Complex(x, y) !in hs && Complex(x + 1, y) in hs }
                 .fold(Acc(0, y0 - 2)) { (n, yPrev), y ->
                     if (y - yPrev > 1) Acc(n + 1, y) else Acc(n, y)
                 }.n
