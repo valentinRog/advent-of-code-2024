@@ -8,21 +8,14 @@ fun MutableMap<Complex, Char>.swap(k1: Complex, k2: Complex) {
     this[k1] = this.getValue(k2).also { this[k2] = this.getValue(k1) }
 }
 
-fun MutableMap<Complex, Char>.move(c: Char) {
-    val d = when (c) {
-        '^' -> Complex(0, -1)
-        '>' -> Complex(1, 0)
-        'v' -> Complex(0, 1)
-        '<' -> Complex(-1, 0)
-        else -> throw IllegalStateException()
-    }
-
+fun MutableMap<Complex, Char>.move(z: Complex, d: Complex): Complex {
     fun move(z: Complex) {
         if (this[z] == '#') return
         if (this[z + d] != '.') move(z + d)
         if (this[z + d] == '.') this.swap(z, z + d)
     }
-    move(this.asSequence().first { it.value == '@' }.key)
+    move(z)
+    return if (this[z] == '@') z else z + d
 }
 
 fun main() {
@@ -34,6 +27,19 @@ fun main() {
         .toMap()
         .toMutableMap()
 
-    raw.split("\n\n")[1].replace("\n", "").forEach { m.move(it) }
+    raw
+        .split("\n\n")[1]
+        .replace("\n", "")
+        .map {
+            when (it) {
+                '^' -> Complex(0, -1)
+                '>' -> Complex(1, 0)
+                'v' -> Complex(0, 1)
+                '<' -> Complex(-1, 0)
+                else -> throw IllegalStateException()
+            }
+        }
+        .fold(m.asSequence().first { it.value == '@' }.key) { acc, d -> m.move(acc, d) }
+
     m.filter { it.value == 'O' }.keys.sumOf { it.x + 100 * it.y }.let(::println)
 }
