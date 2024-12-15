@@ -4,6 +4,10 @@ data class Complex(var x: Int, var y: Int) {
     operator fun plus(other: Complex) = Complex(x + other.x, y + other.y)
 }
 
+fun MutableMap<Complex, Char>.swap(k1: Complex, k2: Complex) {
+    this[k1] = this.getValue(k2).also { this[k2] = this.getValue(k1) }
+}
+
 fun MutableMap<Complex, Char>.move(c: Char) {
     val d = when (c) {
         '^' -> Complex(0, -1)
@@ -16,7 +20,7 @@ fun MutableMap<Complex, Char>.move(c: Char) {
     fun move(z: Complex) {
         if (this[z] == '#') return
         if (this[z + d] != '.') move(z + d)
-        if (this[z + d] == '.') this[z + d] = this.getValue(z).also { this[z] = '.' }
+        if (this[z + d] == '.') this.swap(z, z + d)
     }
     move(this.asSequence().first { it.value == '@' }.key)
 }
