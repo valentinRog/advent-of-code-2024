@@ -43,7 +43,7 @@ fun List<Int>.compute(): Long {
     fun backtracking(a: Long, k: Int): Long? {
         val l = this.simulate(a)
         if (l == this) return a
-        if (l.size > this.size || l.subList(0, k) != this.subList(0, k) || k > 15) return null
+        if (l.size > this.size || k > 15) return null
         if (l.subList(0, min(k, l.lastIndex)) != this.subList(0, k)) return null
         for (n1 in 0L..<(1 shl 3)) {
             for (n2 in 0L..<(1 shl 3)) {
