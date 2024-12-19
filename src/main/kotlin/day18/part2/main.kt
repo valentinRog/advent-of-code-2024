@@ -41,7 +41,7 @@ fun List<Complex>.compute(): Complex {
         val i = (i1 + i2) / 2
         return if (this.take(i).toSet().compute() == null) bs(i1, i) else bs(i, i2)
     }
-    return this[bs(1024, this.lastIndex)]
+    return this[bs(1024, this.size)]
 }
 
 fun main() =
