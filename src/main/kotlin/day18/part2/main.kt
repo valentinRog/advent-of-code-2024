@@ -35,18 +35,22 @@ fun Set<Complex>.compute(): Int? {
     return null
 }
 
-fun main() {
-    val l = generateSequence(::readLine)
+fun List<Complex>.compute(): Complex {
+    tailrec fun bs(i1: Int, i2: Int): Int {
+        if (i2 - i1 <= 1) return i1
+        val i = (i1 + i2) / 2
+        return if (this.take(i).toSet().compute() == null) bs(i1, i) else bs(i, i2)
+    }
+    return this[bs(1024, this.lastIndex)]
+}
+
+fun main() =
+    generateSequence(::readLine)
         .joinToString("\n")
         .trim()
         .replace("\r", "")
         .lines()
         .map { s -> s.split(",").map { it.toInt() } }
         .map { Complex(it[0], it[1]) }
-
-    val hs = l.take(1024).toMutableSet()
-    (l.drop(1024)).first {
-        hs.add(it)
-        hs.compute() == null
-    }.let { println("${it.x},${it.y}") }
-}
+        .compute()
+        .let { println("${it.x},${it.y}") }
