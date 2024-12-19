@@ -5,11 +5,10 @@ fun String.valid(l: List<String>): Boolean {
     fun backtracking(s: String): Boolean {
         if (s in cache) return false
         cache.add(s)
-        if (s == this) return true
-        if (!this.startsWith(s)) return false
-        return l.any { backtracking(s + it) }
+        if (s == "") return true
+        return l.filter { s.startsWith(it) }.any { backtracking(s.removePrefix(it)) }
     }
-    return backtracking("")
+    return backtracking(this)
 }
 
 fun main() {

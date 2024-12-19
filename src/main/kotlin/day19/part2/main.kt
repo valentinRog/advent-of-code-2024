@@ -3,15 +3,13 @@ package day19.part2
 fun String.compute(l: List<String>): Long {
     val cache = mutableMapOf<String, Long>()
     fun backtracking(s: String): Long {
-        if (s == this) return 1
-        if (!this.startsWith(s)) return 0
-        val rs = this.removePrefix(s)
-        if (rs in cache) return cache.getValue(rs)
-        val n = l.sumOf { backtracking(s + it) }
-        cache[rs] = n
+        if (s in cache) return cache.getValue(s)
+        if (s == "") return 1
+        val n = l.filter { s.startsWith(it) }.sumOf { backtracking(s.removePrefix(it)) }
+        cache[s] = n
         return n
     }
-    return backtracking("")
+    return backtracking(this)
 }
 
 fun main() {
