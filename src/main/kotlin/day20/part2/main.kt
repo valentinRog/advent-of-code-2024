@@ -1,4 +1,4 @@
-package day20.part1
+package day20.part2
 
 import kotlin.math.abs
 
@@ -33,7 +33,7 @@ fun Map<Complex, Char>.makeDistanceMatrix(): Map<Complex, Int> {
 fun Map<Complex, Char>.makeCheats(m: Map<Complex, Int>): Map<Complex, List<Complex>> {
     val cheats = mutableMapOf<Complex, List<Complex>>()
     val l = this.filter { it.value in ".ES".toList() }.keys
-    for (z in l) cheats[z] = l.filter { z.manhattan(it) == 2 && m.getValue(z) > m.getValue(it) }
+    for (z in l) cheats[z] = l.filter { z.manhattan(it) <= 20 && m.getValue(z) > m.getValue(it) }
     return cheats
 }
 
