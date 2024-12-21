@@ -1,7 +1,6 @@
 package day21.part2
 
 import java.math.BigInteger
-import java.util.ArrayDeque
 
 data class Complex(var x: Int, var y: Int) {
     operator fun plus(other: Complex) = Complex(x + other.x, y + other.y)
@@ -55,11 +54,11 @@ fun Map<Complex, Char>.bfs(z0: Complex, z1: Complex): List<List<Char>> {
     val hs = mutableSetOf<Complex>()
     val q = ArrayDeque(listOf(Node(z0, emptyList())))
     while (true) {
-        val (z, path) = q.pop()
+        val (z, path) = q.removeFirst()
         if (z == z1) {
             val l = mutableListOf(path)
             while (q.isNotEmpty()) {
-                val (nz, nPath) = q.pop()
+                val (nz, nPath) = q.removeFirst()
                 if (nPath.size > path.size) break
                 if (nz == z1) l.add(nPath)
             }
