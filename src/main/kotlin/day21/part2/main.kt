@@ -51,7 +51,6 @@ val dirPad = """
 fun Map<Complex, Char>.bfs(z0: Complex, z1: Complex): List<List<Char>> {
     data class Node(val z: Complex, val path: List<Char>)
 
-    val hs = mutableSetOf<Complex>()
     val q = ArrayDeque(listOf(Node(z0, emptyList())))
     while (true) {
         val (z, path) = q.removeFirst()
@@ -65,7 +64,7 @@ fun Map<Complex, Char>.bfs(z0: Complex, z1: Complex): List<List<Char>> {
             return l
         }
         Complex.DIRS
-            .filter { z + it in this && z + it !in hs }
+            .filter { z + it in this }
             .forEach { q.add(Node(z + it, path + it.dirToC())) }
     }
 }
