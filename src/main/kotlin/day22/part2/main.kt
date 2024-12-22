@@ -1,7 +1,5 @@
 package day22.part2
 
-import kotlin.math.max
-
 fun Long.next(): Long {
     fun Long.prune() = this % 16777216
     var n = this
@@ -17,7 +15,7 @@ fun Long.makePrices(): Map<List<Long>, Long> {
         .map { it % 10 }
         .windowed(5)
         .map { l -> l.windowed(2).map { it[1] - it[0] } to l.last() }
-        .forEach { (k, v) -> m[k] = max(v, (m.getOrDefault(k, v))) }
+        .forEach { (k, v) -> m.putIfAbsent(k, v) }
     return m
 }
 
