@@ -10,11 +10,11 @@ fun <T, U> Sequence<T>.uniqueBy(selector: (T) -> U): Sequence<T> {
 }
 
 fun Long.next(): Long {
-    fun Long.prune() = this % 16777216
+    val m = 16777216
     var n = this
-    n = (n xor (n * 64)).prune()
-    n = (n xor (n / 32)).prune()
-    return (n xor (n * 2048)).prune()
+    n = (n xor (n * 64)) % m
+    n = (n xor (n / 32)) % m
+    return (n xor (n * 2048)) % m
 }
 
 fun Long.makePrices() =
