@@ -1,5 +1,14 @@
 package day22.part2
 
+fun <T, U> Sequence<T>.uniqueBy(selector: (T) -> U): Sequence<T> {
+    val seen = mutableSetOf<U>()
+    return this.filter {
+        if (selector(it) in seen) return@filter false
+        seen.add(selector(it))
+        true
+    }
+}
+
 fun Long.next(): Long {
     fun Long.prune() = this % 16777216
     var n = this
@@ -8,21 +17,21 @@ fun Long.next(): Long {
     return (n xor (n * 2048)).prune()
 }
 
-fun Long.makePrices(): Map<List<Long>, Long> {
-    val m = mutableMapOf<List<Long>, Long>()
+fun Long.makePrices() =
     generateSequence(this) { it.next() }
         .take(2000 + 1)
-        .map { it % 10 }
+        .map { (it % 10).toInt() }
         .windowed(5)
         .map { l -> l.windowed(2).map { it[1] - it[0] } to l.last() }
-        .forEach { (k, v) -> m.putIfAbsent(k, v) }
-    return m
-}
 
-fun List<Long>.compute(): Long {
-    val l = this.map { it.makePrices() }
-    return l.flatMap { it.keys }.toSet().maxOf { k -> l.sumOf { it.getOrDefault(k, 0) } }
-}
+fun List<Long>.compute() =
+    this
+        .map { it.makePrices() }
+        .fold(mutableMapOf<List<Int>, Int>()) { acc, l ->
+            l.uniqueBy { it.first }.forEach { (k, v) -> acc[k] = acc.getOrDefault(k, 0) + v }
+            acc
+        }.values
+        .max()
 
 fun main() =
     generateSequence(::readLine)
