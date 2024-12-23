@@ -23,7 +23,7 @@ fun main() =
         .lines()
         .map { it.split("-") }
         .fold(mutableMapOf<String, Set<String>>()) { acc, l ->
-            for (i in 0..1) acc[l[0 + i]] = acc.getOrDefault(l[0 + i], emptySet()) + l[1 - i]
+            for (i in 0..1) acc[l[i]] = acc.getOrDefault(l[i], emptySet()) + l[1 - i]
             acc
         }
         .compute()
