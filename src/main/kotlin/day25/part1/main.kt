@@ -5,7 +5,7 @@ data class Complex(var x: Int, var y: Int)
 fun <T> Sequence<T>.combinations() = this.flatMapIndexed { i, e1 -> this.drop(i + 1).map { e1 to it } }
 
 fun Pair<Map<Complex, Char>, Map<Complex, Char>>.fit() =
-    this.first.asSequence().find { (k, v) -> v == '#' && this.second[k] == '#' } == null
+    !this.first.asSequence().any { (k, v) -> v == '#' && this.second[k] == '#' }
 
 fun main() =
     generateSequence(::readLine)
