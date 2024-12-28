@@ -48,7 +48,7 @@ fun List<List<String>>.compute(): String {
             val nSwaps = swaps.toMutableMap()
             nSwaps[s1] = s2
             nSwaps[s2] = s1
-            if (this.check(nBits, nSwaps))backtracking(nBits, nSwaps).let { if(it != null) return it }
+            if (this.check(nBits, nSwaps)) backtracking(nBits, nSwaps).let { if (it != null) return it }
         }
         return null
     }
@@ -58,10 +58,10 @@ fun List<List<String>>.compute(): String {
 fun List<List<String>>.check(nBits: Int, swaps: Map<String, String>): Boolean {
     val mask = (0..<nBits).fold(0L) { acc, i -> acc or ((i % 2).toLong() shl i) }
     val n = (1L shl nBits) - 1
-    for ((n1, n2) in listOf(n, n and mask, n and (mask.inv())).asSequence().combinations()) {
-        if (this.simulate(n1, n2, swaps) != n1 + n2) return false
-    }
-    return true
+    return listOf(n, n and mask, n and (mask.inv()))
+        .asSequence()
+        .combinations()
+        .all { (n1, n2) -> this.simulate(n1, n2, swaps) == n1 + n2 }
 }
 
 fun main() =
