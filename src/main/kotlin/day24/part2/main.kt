@@ -55,8 +55,8 @@ fun List<List<String>>.compute(): String {
     return backtracking(0, emptyMap())!!
 }
 
+val mask = (0..<zMax).fold(0L) { acc, i -> acc or ((i % 2).toLong() shl i) }
 fun List<List<String>>.check(nBits: Int, swaps: Map<String, String>): Boolean {
-    val mask = (0..<nBits).fold(0L) { acc, i -> acc or ((i % 2).toLong() shl i) }
     val n = (1L shl nBits) - 1
     return listOf(n, n and mask, n and (mask.inv()))
         .asSequence()
